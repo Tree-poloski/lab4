@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-rds
+spec:
+  type: ExternalName
+  externalName: database-1.c7ye68e22w6s.eu-north-1.rds.amazonaws.com

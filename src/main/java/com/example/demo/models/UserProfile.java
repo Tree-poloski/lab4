@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class User {
+public class UserProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
@@ -41,5 +41,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Ticket> tickets;
 
-
+    @ManyToOne
+    private Role role;
 }
