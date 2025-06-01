@@ -43,3 +43,48 @@ spec:
       volumes:
         - name: postgres-data
           emptyDir: {}
+---
+# Spring Boot App Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: myapp
+          image: vladvoloshyn/lab4:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://database-1.c7ye68e22w6s.eu-north-1.rds.amazonaws.com:5432/database-1
+            - name: SPRING_DATASOURCE_USERNAME
+              value: postgres
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: postgress
+            - name: JWT_SECRET
+              value: "8tC0wUPnhnmX0n+yExkTiA1zU8VQ0zXb9CQYDRv+K0c="
+            - name: JWT_EXPIRATION_MS
+              value: "86400000"
+---
+# Spring Boot App Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+spec:
+  selector:
+    app: myapp
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: NodePort
